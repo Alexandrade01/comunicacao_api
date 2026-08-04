@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: prod
   application:
     name: comunicacao_api
   datasource:
@@ -14,3 +16,4 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
