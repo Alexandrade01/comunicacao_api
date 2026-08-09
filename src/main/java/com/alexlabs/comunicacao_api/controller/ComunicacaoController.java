@@ -1,4 +1,4 @@
-package com.alexlabs.comunicacao_api.api;
+package com.alexlabs.comunicacao_api.controller;
 
 
 import com.alexlabs.comunicacao_api.api.dto.ComunicacaoInDTO;
@@ -7,7 +7,6 @@ import com.alexlabs.comunicacao_api.business.service.ComunicacaoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -65,12 +65,7 @@ public class ComunicacaoService {
         }
         ComunicacaoOutDTO dto = mapper.toDTO(entity);
 
-        try {
-            emailService.enviarEmail(converter.paraEnviarEmail(dto));
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        emailService.enviarEmail(converter.paraEnviarEmail(dto));
 
         return "Email enviado com sucesso para o email: " + dto.getEmailDestinatario();
     }
