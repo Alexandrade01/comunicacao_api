@@ -23,7 +23,7 @@ public class ComunicacaoController {
 
     @Operation(
             summary = "Agendar comunicação",
-            description = "Agenda uma nova comunicação para o usuário autenticado. Requer autenticação.",
+            description = "Agenda uma nova comunicação para o usuário.",
             tags = {"Comunicações"}
     )
     @PostMapping("/agendar")
@@ -33,7 +33,7 @@ public class ComunicacaoController {
 
     @Operation(
             summary = "Buscar status da comunicação",
-            description = "Busca o status de uma comunicação específica do usuário autenticado. Requer autenticação.",
+            description = "Busca o status de uma comunicação específica do usuário.",
             tags = {"Comunicações"}
     )
     @GetMapping()
@@ -43,7 +43,7 @@ public class ComunicacaoController {
 
     @Operation(
             summary = "Cancelar comunicação",
-            description = "Cancela uma comunicação específica do usuário autenticado. Requer autenticação.",
+            description = "Cancela uma comunicação específica do usuário.",
             tags = {"Comunicações"}
     )
     @PatchMapping("/cancelar")
@@ -53,7 +53,7 @@ public class ComunicacaoController {
 
     @Operation(
             summary = "Enviar email",
-            description = "Envia um email para o destinatário especificado. Requer autenticação.",
+            description = "Envia um email para o destinatário especificado.",
             tags = {"Comunicações"}
     )
     @PostMapping("/enviar-email")
