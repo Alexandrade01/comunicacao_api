@@ -5,6 +5,7 @@ import com.alexlabs.comunicacao_api.api.dto.ComunicacaoInDTO;
 import com.alexlabs.comunicacao_api.api.dto.ComunicacaoOutDTO;
 import com.alexlabs.comunicacao_api.business.EmailService;
 import com.alexlabs.comunicacao_api.business.converter.ComunicacaoConverter;
+import com.alexlabs.comunicacao_api.business.mapper.ComunicacaoMapper;
 import com.alexlabs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import com.alexlabs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import com.alexlabs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
@@ -18,11 +19,13 @@ public class ComunicacaoService {
     private final ComunicacaoRepository repository;
     private final ComunicacaoConverter converter;
     private final EmailService emailService;
+    private final ComunicacaoMapper mapper;
 
-    public ComunicacaoService(ComunicacaoRepository repository, ComunicacaoConverter converter, EmailService emailService) {
+    public ComunicacaoService(ComunicacaoRepository repository, ComunicacaoConverter converter, EmailService emailService, ComunicacaoMapper mapper) {
         this.repository = repository;
         this.converter = converter;
         this.emailService = emailService;
+        this.mapper = mapper;
     }
 
     public ComunicacaoOutDTO agendarComunicacao(ComunicacaoInDTO dto) {
@@ -30,9 +33,9 @@ public class ComunicacaoService {
             throw new RuntimeException();
         }
         dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
-        ComunicacaoEntity entity = converter.paraEntity(dto);
+        ComunicacaoEntity entity = mapper.toEntity(dto);
         repository.save(entity);
-        ComunicacaoOutDTO outDTO = converter.paraDTO(entity);
+        ComunicacaoOutDTO outDTO = mapper.toDTO(entity);
         return outDTO;
     }
 
@@ -41,7 +44,7 @@ public class ComunicacaoService {
         if (Objects.isNull(entity)) {
             throw new RuntimeException();
         }
-        return converter.paraDTO(entity);
+        return mapper.toDTO(entity);
     }
 
     public ComunicacaoOutDTO alterarStatusComunicacao(String emailDestinatario) {
@@ -51,7 +54,7 @@ public class ComunicacaoService {
         }
         entity.setStatusEnvio(StatusEnvioEnum.CANCELADO);
         repository.save(entity);
-        return (converter.paraDTO(entity));
+        return (mapper.toDTO(entity));
     }
 
     public String enviarEmail(String emailDestinatario) {
@@ -60,7 +63,7 @@ public class ComunicacaoService {
         if (Objects.isNull(entity) || entity.getStatusEnvio() == StatusEnvioEnum.CANCELADO) {
             throw new RuntimeException();
         }
-        ComunicacaoOutDTO dto = converter.paraDTO(entity);
+        ComunicacaoOutDTO dto = mapper.toDTO(entity);
 
         try {
             emailService.enviarEmail(converter.paraEnviarEmail(dto));
