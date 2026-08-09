@@ -14,3 +14,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+server:
+  port: 8090
+  servlet:
+    context-path: /comunicacao_api
+
+
+notificacao:
+  url: http://localhost:8082/email
