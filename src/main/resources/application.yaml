@@ -2,13 +2,14 @@ spring:
   application:
     name: comunicacao_api
   datasource:
-    url: jdbc:mysql://localhost:3306/comunicacao_api?useSSL=false&serverTimezone=America/Sao_Paulo&allowPublicKeyRetrieval=true
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/comunicacao_api?useSSL=false&serverTimezone=America/Sao_Paulo&allowPublicKeyRetrieval=true}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
       ddl-auto: update
     show-sql: true
     properties:
@@ -22,4 +23,4 @@ server:
 
 
 notificacao:
-  url: http://localhost:8082/email
+  url: ${NOTIFICACAO_URL:http://localhost:8082/email}

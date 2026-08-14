@@ -1,0 +1,40 @@
+services:
+  mysql_comunicacao:
+    image: mysql:8.4
+    container_name: mysql_comunicacao
+    environment:
+      MYSQL_DATABASE: comunicacao_api
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: comunicacao_user
+      MYSQL_PASSWORD: comunicacao_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  comunicacao_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: comunicacao_api
+    depends_on:
+      mysql_comunicacao:
+        condition: service_healthy
+    environment:
+      DB_USERNAME: comunicacao_user
+      DB_PASSWORD: comunicacao_pass
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_comunicacao:3306/comunicacao_api?useSSL=false&serverTimezone=America/Sao_Paulo&allowPublicKeyRetrieval=true
+      NOTIFICACAO_URL: http://host.docker.internal:8082/email
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8090:8090"
+
+volumes:
+  mysql_data:
